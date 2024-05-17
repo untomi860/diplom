@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ post.title }}
+{% endblock %}
+
+{% block content %}
+<div class="posti">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.text }}</p>
+    <hr>
+    <h3>Комментарии</h3>
+    {% if post.comments %}
+      {% for comment in post.comments %}
+        <div class="card">
+          <div class="card-body">
+            <p>{{ comment.text }}</p>
+            <p>Автор: {{ comment.user.username }}</p>
+            {% if current_user.is_authenticated and current_user.id == comment.user.id %}
+              <form method="POST" action="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                <button type="submit" class="btn btn-danger">Удалить комментарий</button>
+              </form>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Нет комментариев</p>
+    {% endif %}
+    <hr>
+    <h3>Добавить комментарий</h3>
+    <form method="POST" action="{{ url_for('add_comment', post_id=post.id) }}">
+      {{ form.hidden_tag() }}
+      <div class="form-group">
+        {{ form.text.label }}
+        {{ form.text(class="form-control") }}
+        {% for error in form.text.errors %}
+          <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary">{{ form.submit.label }}</button>
+    </form>
+  </div>
+{% endblock %}

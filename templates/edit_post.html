@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Редактировать пост
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <form class="col-md-8 mx-auto mt-5" method="POST">
+    <h2 class="text-center mb-4">Редактировать пост</h2>
+    <div class="mb-3">
+      <label for="title" class="form-label">Заголовок</label>
+      <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}" required>
+    </div>
+    <div class="mb-3">
+      <label for="text" class="form-label">Текст</label>
+      <textarea class="form-control" id="text" name="text" rows="10" required>{{ post.text }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Сохранить изменения</button>
+  </form>
+</div>
+{% endblock %}

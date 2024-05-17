@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Все записи
+{% endblock %}
+
+{% block content %}
+<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 search-form" role="search" action="{{ url_for('search_posts') }}" method="GET">
+    <div class="input-group">
+        <input type="search" name="query" class="search-input" placeholder="Поиск..." aria-label="Search">
+    </div>
+</form>
+<script>
+     document.addEventListener("DOMContentLoaded", function () {
+
+                    var postInfos = document.querySelectorAll('.post-info');
+
+
+                    postInfos.forEach(function (postInfo) {
+                        postInfo.addEventListener('click', function () {
+
+                            var postId = postInfo.dataset.postId;
+
+
+                            window.location.href = "/post/" + postId;
+                        });
+                    });
+
+
+                    document.querySelector('.search-input').addEventListener('keypress', function (event) {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();
+                            var query = this.value.trim();
+                            if (query !== '') {
+                                window.location.href = "{{ url_for('search_posts') }}?query=" + encodeURIComponent(query);
+                            }
+                        }
+                    });
+                });
+</script>
+
+<div class="row">
+    {% for post in posts %}
+
+    <div class="col-md-6 item">
+
+        <div class="item-in post-info" data-post-id="{{ post.id }}">
+            <h4>{{ post.title }}</h4>
+            <div class="seperator"></div>
+            <p>{{ post.text[:100] }}</p>
+            <a href="{{ url_for('post', post_id=post.id) }}" class="btn-next">Читать далее</a>
+            {% if g.user and g.user.is_admin() %}
+<div style="margin-top: 10px;">
+    <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn-delete">Редактировать</a>
+    <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post" style="display: inline;">
+        <button type="submit" class="btn-delete">Удалить</button>
+    </form>
+</div>
+{% endif %}
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+</div>
+{% endblock %}

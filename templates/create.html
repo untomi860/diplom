@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавление записи
+{% endblock %}
+
+{% block content %}
+
+<form class="col-md-6 mx-auto mt-5" method="POST">
+    <h2 class="text-center mb-4">Создание поста</h2>
+    {% if g.user %}
+    <a href="{{ url_for('create') }}"></a>
+    {% endif %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Заголовок</label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="Введите заголовок" required>
+    </div>
+    <div class="mb-3">
+        <label for="text" class="form-label">Текст</label>
+        <textarea class="form-control" id="text" name="text" rows="5" placeholder="Введите текст" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Создать</button>
+</form>
+
+{% endblock %}

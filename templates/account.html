@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Мой аккаунт
+{% endblock %}
+
+{% block content %}
+<div class="acc">
+  <h2>Информация об аккаунте</h2>
+  {% if user %}
+  <div class="gg">
+    <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+  </div>
+
+  {% else %}
+    <p>Информация о пользователе недоступна</p>
+  {% endif %}
+</div>
+{% endblock %}
